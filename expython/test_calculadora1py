@@ -1,0 +1,37 @@
+import unittest
+from calculadora1 import validar_formato_hora, calcular_horas_trabalhadas
+
+class TestCalculadoraHorasTrabalhadas(unittest.TestCase):
+
+    def test_validar_formato_hora(self):
+        self.assertTrue(validar_formato_hora("08:30"))
+        self.assertTrue(validar_formato_hora("15:45"))
+        self.assertFalse(validar_formato_hora("0830"))
+        self.assertFalse(validar_formato_hora("8:30"))
+        self.assertFalse(validar_formato_hora("25:30"))
+        self.assertFalse(validar_formato_hora("08:75"))
+
+    def test_calcula_horas_trabalhadas(self):
+
+        entrada = ["08:00", "12:30", "13:30", "17:45"]
+        resultado = calcular_horas_trabalhadas(entrada)
+        self.assertEqual(resultado, "8 horas e 45 minutos")
+
+    def test_inserir_horarios(self):
+      
+        entrada_usuario = ["09:00", "17:30"]
+        resultado = inserir_horarios_simulado(entrada_usuario)
+        self.assertEqual(resultado, "Horas trabalhadas: 8 horas e 30 minutos")
+
+def inserir_horarios_simulado(entradas):
+    
+    entrada_inicio, entrada_termino = entradas
+    if not validar_formato_hora(entrada_inicio) or not validar_formato_hora(entrada_termino):
+        return "Formato de hora inválido. Use HH:mm."
+
+    horas_trabalhadas = calcular_horas_trabalhadas([entrada_inicio, entrada_termino])
+
+    return f"Horas trabalhadas: {horas_trabalhadas}"
+
+if __name__ == '__main__':
+    unittest.main()
